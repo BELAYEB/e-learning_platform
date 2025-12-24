@@ -3,7 +3,7 @@
 
 > A comprehensive, production-ready e-learning platform backend with JWT authentication, course management, and complete testing resources.
 
-The idea of this project was proposed by Mr. [Chaouki Bayoudhi](https://github.com/ChaoukiBayoudhi)  at ISG Tunis.
+The concept of this project was proposed by Mr. [Chaouki Bayoudhi](https://github.com/ChaoukiBayoudhi)  at ISG Tunis.
 
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success)](.)
 [![Java](https://img.shields.io/badge/Java-17-orange)](.)
