@@ -1,0 +1,340 @@
+{
+  "info": {
+    "name": "E-Learning Platform - Complete API",
+    "description": "Complete collection with ALL endpoints from ALL controllers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
+  },
+  "variable": [
+    {"key": "baseUrl", "value": "http://localhost:8080"},
+    {"key": "jwtToken", "value": ""},
+    {"key": "studentId", "value": ""},
+    {"key": "tutorId", "value": ""},
+    {"key": "courseId", "value": ""},
+    {"key": "assignmentId", "value": ""},
+    {"key": "submissionId", "value": ""},
+    {"key": "materialId", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Test",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/test/ping", "host": ["{{baseUrl}}"], "path": ["api", "test", "ping"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users - Registration",
+      "item": [
+        {
+          "name": "Register Student",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('studentId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"student_john\", \"email\": \"john.student@example.com\", \"password\": \"Student@123\", \"role\": \"STUDENT\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/register", "host": ["{{baseUrl}}"], "path": ["api", "users", "register"]}
+          }
+        },
+        {
+          "name": "Register Tutor",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('tutorId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"tutor_jane\", \"email\": \"jane.tutor@example.com\", \"password\": \"Tutor@123\", \"role\": \"TUTOR\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/register", "host": ["{{baseUrl}}"], "path": ["api", "users", "register"]}
+          }
+        },
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"admin_mike\", \"email\": \"mike.admin@example.com\", \"password\": \"Admin@123\", \"role\": \"ADMIN\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/register", "host": ["{{baseUrl}}"], "path": ["api", "users", "register"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users - Authentication",
+      "item": [
+        {
+          "name": "Login Student",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.collectionVariables.set('jwtToken', jsonData.token); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"email\": \"john.student@example.com\", \"password\": \"Student@123\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/login", "host": ["{{baseUrl}}"], "path": ["api", "users", "login"]}
+          }
+        },
+        {
+          "name": "Login Tutor",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.collectionVariables.set('jwtToken', jsonData.token); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"email\": \"jane.tutor@example.com\", \"password\": \"Tutor@123\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/login", "host": ["{{baseUrl}}"], "path": ["api", "users", "login"]}
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 200) { var jsonData = pm.response.json(); pm.collectionVariables.set('jwtToken', jsonData.token); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"email\": \"mike.admin@example.com\", \"password\": \"Admin@123\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/login", "host": ["{{baseUrl}}"], "path": ["api", "users", "login"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users - Profile",
+      "item": [
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{studentId}}"]}
+          }
+        },
+        {
+          "name": "Get User by Email",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/email/john.student@example.com", "host": ["{{baseUrl}}"], "path": ["api", "users", "email", "john.student@example.com"]}
+          }
+        },
+        {
+          "name": "List All Users",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users", "host": ["{{baseUrl}}"], "path": ["api", "users"]}
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"username\": \"john_updated\", \"email\": \"john.student@example.com\", \"password\": \"NewPass@123\", \"role\": \"STUDENT\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{studentId}}"]}
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"email\": \"john.student@example.com\", \"currentPassword\": \"Student@123\", \"newPassword\": \"NewStudent@456\"}"},
+            "url": {"raw": "{{baseUrl}}/api/users/change-password", "host": ["{{baseUrl}}"], "path": ["api", "users", "change-password"]}
+          }
+        },
+        {
+          "name": "Activate User",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/{{studentId}}/activate", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{studentId}}", "activate"]}
+          }
+        },
+        {
+          "name": "Deactivate User",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/{{studentId}}/deactivate", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{studentId}}", "deactivate"]}
+          }
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/users/{{studentId}}", "host": ["{{baseUrl}}"], "path": ["api", "users", "{{studentId}}"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Create Course",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('courseId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"title\": \"Spring Boot Course\", \"description\": \"Learn Spring Boot\", \"tutorId\": {{tutorId}}, \"capacity\": 30}"},
+            "url": {"raw": "{{baseUrl}}/api/courses", "host": ["{{baseUrl}}"], "path": ["api", "courses"]}
+          }
+        },
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/courses", "host": ["{{baseUrl}}"], "path": ["api", "courses"]}
+          }
+        },
+        {
+          "name": "Get Course by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}"]}
+          }
+        },
+        {
+          "name": "Get Tutor Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {"raw": "{{baseUrl}}/api/courses/tutor/{{tutorId}}", "host": ["{{baseUrl}}"], "path": ["api", "courses", "tutor", "{{tutorId}}"]}
+          }
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"title\": \"Advanced Spring Boot\", \"description\": \"Advanced topics\", \"tutorId\": {{tutorId}}, \"capacity\": 25}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}"]}
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}"]}
+          }
+        },
+        {
+          "name": "Enroll Student",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"studentId\": {{studentId}}}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/enrollments", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "enrollments"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Assignments",
+      "item": [
+        {
+          "name": "Create Assignment",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('assignmentId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"title\": \"REST API Project\", \"description\": \"Build REST API\", \"dueDate\": \"2026-12-31T23:59:59\", \"maxScore\": 100}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/assignments", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "assignments"]}
+          }
+        },
+        {
+          "name": "Get Assignments",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/assignments", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "assignments"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Submissions",
+      "item": [
+        {
+          "name": "Submit Assignment",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('submissionId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"studentId\": {{studentId}}, \"content\": \"My completed project\", \"attachmentPath\": \"/uploads/project.zip\"}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/assignments/{{assignmentId}}/submissions", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "assignments", "{{assignmentId}}", "submissions"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Grading",
+      "item": [
+        {
+          "name": "Grade Submission",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"tutorId\": {{tutorId}}, \"score\": 92, \"feedback\": \"Excellent work!\"}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/submissions/{{submissionId}}/grade", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "submissions", "{{submissionId}}", "grade"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Materials",
+      "item": [
+        {
+          "name": "Create Material PDF",
+          "event": [{"listen": "test", "script": {"exec": ["if (pm.response.code === 201) { var jsonData = pm.response.json(); pm.collectionVariables.set('materialId', jsonData.id); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"courseId\": {{courseId}}, \"title\": \"Lecture Notes\", \"storagePath\": \"/materials/lecture.pdf\", \"type\": \"PDF\"}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/materials", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "materials"]}
+          }
+        },
+        {
+          "name": "Create Material Video",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"courseId\": {{courseId}}, \"title\": \"Tutorial Video\", \"storagePath\": \"/materials/video.mp4\", \"type\": \"VIDEO\"}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/materials", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "materials"]}
+          }
+        },
+        {
+          "name": "Create Material Document",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "body": {"mode": "raw", "raw": "{\"courseId\": {{courseId}}, \"title\": \"Study Guide\", \"storagePath\": \"/materials/guide.docx\", \"type\": \"DOCUMENT\"}"},
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/materials", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "materials"]}
+          }
+        },
+        {
+          "name": "Get Materials",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/materials", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "materials"]}
+          }
+        },
+        {
+          "name": "Delete Material",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Authorization", "value": "Bearer {{jwtToken}}"}],
+            "url": {"raw": "{{baseUrl}}/api/courses/{{courseId}}/materials/{{materialId}}", "host": ["{{baseUrl}}"], "path": ["api", "courses", "{{courseId}}", "materials", "{{materialId}}"]}
+          }
+        }
+      ]
+    }
+  ]
+}
+
